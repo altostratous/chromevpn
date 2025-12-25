@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChromeVPN</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>ChromeVPN</h1>
+      <p class="subtitle">Modular VPN Extension</p>
+    </header>
+
+    <div class="promo-section">
+      <button id="promoButton" class="promo-button">
+        🎁 Get Free Trial at HourlyVPN
+      </button>
+    </div>
+
+    <div class="vpn-section">
+      <h2>VPN Configuration</h2>
+      
+      <div class="connection-status">
+        <span id="statusIndicator" class="status-indicator disconnected"></span>
+        <span id="statusText">Disconnected</span>
+      </div>
+
+      <div class="config-type">
+        <label for="configType">Configuration Type:</label>
+        <select id="configType">
+          <option value="">Select Type</option>
+          <option value="v2ray">V2Ray Subscription</option>
+          <option value="v2ray-config">V2Ray Configuration</option>
+          <option value="socks">SOCKS Proxy</option>
+        </select>
+      </div>
+
+      <div id="v2raySubscriptionSection" class="config-section hidden">
+        <label for="v2rayUrl">V2Ray Subscription URL:</label>
+        <input type="text" id="v2rayUrl" placeholder="https://example.com/subscription">
+        <button id="fetchV2rayButton" class="btn">Fetch Subscription</button>
+        <div id="v2rayServers" class="server-list"></div>
+      </div>
+
+      <div id="v2rayConfigSection" class="config-section hidden">
+        <label for="v2rayConfig">V2Ray Configuration (JSON):</label>
+        <textarea id="v2rayConfig" rows="8" placeholder='{"outbounds": [...], ...}'></textarea>
+        <button id="saveV2rayConfigButton" class="btn">Save Configuration</button>
+      </div>
+
+      <div id="socksSection" class="config-section hidden">
+        <label for="socksUrl">SOCKS URL:</label>
+        <input type="text" id="socksUrl" placeholder="socks5://user:pass@host:port">
+        <p class="help-text">Or enter details separately:</p>
+        <label for="socksHost">Host:</label>
+        <input type="text" id="socksHost" placeholder="127.0.0.1">
+        <label for="socksPort">Port:</label>
+        <input type="number" id="socksPort" placeholder="1080">
+        <label for="socksUsername">Username (optional):</label>
+        <input type="text" id="socksUsername" placeholder="username">
+        <label for="socksPassword">Password (optional):</label>
+        <input type="password" id="socksPassword" placeholder="password">
+      </div>
+
+      <div class="action-buttons">
+        <button id="connectButton" class="btn btn-primary">Connect</button>
+        <button id="disconnectButton" class="btn btn-danger hidden">Disconnect</button>
+      </div>
+
+      <div id="messageBox" class="message-box hidden"></div>
+    </div>
+
+    <footer>
+      <div class="footer-links">
+        <a href="https://hourlyvpn.ca/en/info/tos" target="_blank">Terms of Service</a>
+        <span class="separator">|</span>
+        <a href="https://hourlyvpn.ca/en/info/tos" target="_blank">Privacy Policy</a>
+      </div>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
