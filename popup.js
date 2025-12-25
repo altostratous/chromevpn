@@ -220,12 +220,17 @@ class PopupController {
     if (url) {
       // Parse SOCKS URL (e.g., socks5://user:pass@host:port)
       try {
-        const parsedUrl = new URL(url.replace(/^socks5?:\/\//, 'http://'));
+        // Validate SOCKS URL format
+        if (!url.match(/^socks[45]?:\/\//)) {
+          this.showMessage('Invalid SOCKS URL format. Must start with socks:// or socks5://', 'error');
+          return null;
+        }
+        const parsedUrl = new URL(url.replace(/^socks[45]?:\/\//, 'http://'));
         return {
           type: 'socks',
           scheme: url.startsWith('socks5') ? 'socks5' : 'socks4',
           host: parsedUrl.hostname,
-          port: parseInt(parsedUrl.port) || 1080,
+          port: parseInt(parsedUrl.port, 10) || 1080,
           username: parsedUrl.username || undefined,
           password: parsedUrl.password || undefined
         };
@@ -247,7 +252,7 @@ class PopupController {
         type: 'socks',
         scheme: 'socks5',
         host: host,
-        port: parseInt(port),
+        port: parseInt(port, 10),
         username: document.getElementById('socksUsername').value.trim() || undefined,
         password: document.getElementById('socksPassword').value.trim() || undefined
       };

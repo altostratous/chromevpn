@@ -106,7 +106,10 @@ class VPNManager {
         try {
           const v2rayConfig = JSON.parse(config.config);
           // Try to find SOCKS outbound
-          const socksOutbound = v2rayConfig.outbounds?.find(o => o.protocol === 'socks');
+          if (!v2rayConfig.outbounds || !Array.isArray(v2rayConfig.outbounds)) {
+            throw new Error('Invalid V2Ray configuration: missing outbounds');
+          }
+          const socksOutbound = v2rayConfig.outbounds.find(o => o.protocol === 'socks');
           if (socksOutbound && socksOutbound.settings) {
             const servers = socksOutbound.settings.servers?.[0];
             if (servers) {
@@ -123,13 +126,15 @@ class VPNManager {
               };
             }
           }
+          if (!proxyConfig) {
+            throw new Error('No SOCKS outbound found in V2Ray configuration');
+          }
         } catch (error) {
-          throw new Error('Failed to parse V2Ray configuration');
+          throw new Error('Failed to parse V2Ray configuration: ' + error.message);
         }
       } else {
         // V2Ray subscription link - simplified handling
-        // In a real implementation, this would parse vmess://, vless://, etc.
-        throw new Error('V2Ray subscription links require additional parsing. Please use V2Ray Configuration with a SOCKS outbound or configure a local V2Ray client with SOCKS proxy, then use the SOCKS option.');
+        throw new Error('V2Ray subscriptions are not yet supported. Please use V2Ray Configuration or SOCKS proxy instead.');
       }
     }
 
