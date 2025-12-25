@@ -91,7 +91,12 @@ class PopupController {
       
       const data = await response.text();
       // V2Ray subscriptions are typically base64 encoded
-      const decoded = atob(data);
+      let decoded;
+      try {
+        decoded = atob(data);
+      } catch (decodeError) {
+        throw new Error('Invalid base64 encoded subscription data');
+      }
       const servers = decoded.split('\n').filter(s => s.trim());
       
       this.displayV2rayServers(servers);

@@ -16,11 +16,6 @@ class VPNManager {
 
     // Restore connection state on startup
     this.restoreConnectionState();
-
-    // Listen for extension icon clicks
-    chrome.action.onClicked.addListener(() => {
-      chrome.action.openPopup();
-    });
   }
 
   async restoreConnectionState() {
@@ -152,18 +147,7 @@ class VPNManager {
   }
 
   updateIcon(status) {
-    const iconPath = status === 'connected' ? 'icons/icon' : 'icons/icon';
-    // In a full implementation, we would have different icons for connected/disconnected
-    chrome.action.setIcon({
-      path: {
-        16: `${iconPath}16.png`,
-        32: `${iconPath}32.png`,
-        48: `${iconPath}48.png`,
-        128: `${iconPath}128.png`
-      }
-    });
-
-    // Update badge
+    // Update badge to show connection status
     if (status === 'connected') {
       chrome.action.setBadgeText({ text: 'ON' });
       chrome.action.setBadgeBackgroundColor({ color: '#4CAF50' });

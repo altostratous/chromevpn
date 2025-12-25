@@ -90,7 +90,7 @@ Contributions are welcome! This is an open source project aimed at providing a f
 
 ## License
 
-Open Source - See LICENSE file for details
+This project is open source and available for use and modification.
 
 ## Support
 
